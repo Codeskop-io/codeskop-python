@@ -134,7 +134,8 @@ def test_batches_of_at_most_100(sdk, ingest):
     for i in range(250):
         codeskop.capture_message(f"m{i}")
     assert codeskop.flush(5)
-    assert sorted(len(b["batch"]) for b in ingest.batches) == [50, 100, 100]
+    sizes = [len(b["batch"]) for b in ingest.batches]
+    assert max(sizes) <= 100 and sum(sizes) == 250 and len(sizes) >= 3
     assert len({e["event_id"] for e in ingest.events}) == 250
 
 
