@@ -23,7 +23,9 @@ classifiers = [
   "Framework :: Django",
   "Framework :: Flask",
   "Framework :: FastAPI",
+  "Operating System :: OS Independent",
   "Topic :: System :: Monitoring",
+  "Typing :: Typed",
 ]
 dynamic = ["version"]
 dependencies = []
@@ -46,6 +48,9 @@ test = [
 [project.urls]
 Homepage = "https://www.codeskop.com"
 Documentation = "https://www.codeskop.com/docs/server/python"
+Source = "https://github.com/Codeskop-io/codeskop-python"
+Changelog = "https://github.com/Codeskop-io/codeskop-python/blob/main/CHANGELOG.md"
+Issues = "https://github.com/Codeskop-io/codeskop-python/issues"
 
 [tool.hatch.version]
 path = "src/codeskop/_version.py"
