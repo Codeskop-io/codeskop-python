@@ -118,3 +118,16 @@ def test_custom_resolver_and_asgi(sdk, ingest):
     [e] = ingest.of_type("http_request")
     assert e["payload"]["consumer"] == {"id_hash": h("tenant-7"), "auth_type": "custom", "source": "resolver"}
     assert e["payload"]["client"]["ip"] == "198.51.100.4"
+
+
+def test_attributed_requests_are_never_sampled_out(sdk, ingest):
+    cfg = trust_config()
+    cfg["sample_rates"] = {"http_request": 0.0}
+    ingest.config = cfg
+    sdk()
+    c = _flask_app()
+    for _ in range(5):
+        c.post("/v1/charges", headers={"X-API-Key": "k1"})
+    c.post("/v1/charges")  # no consumer → sampled like any request
+    codeskop.flush(3)
+    assert len(ingest.of_type("http_request")) == 5
