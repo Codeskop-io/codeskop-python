@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "codeskop"
+description = "Codeskop server SDK for Python: errors, incoming requests and outgoing API calls from Django, Flask, FastAPI and Celery apps."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Codeskop", email = "plinqdevelopers@gmail.com" }]
+keywords = ["error-monitoring", "apm", "django", "flask", "fastapi", "celery", "codeskop"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Framework :: Django",
+  "Framework :: Flask",
+  "Framework :: FastAPI",
+  "Topic :: System :: Monitoring",
+]
+dynamic = ["version"]
+dependencies = []
+
+[project.optional-dependencies]
+django = ["django>=3.2"]
+flask = ["flask>=2.2"]
+fastapi = ["starlette>=0.27"]
+celery = ["celery>=5.2"]
+test = [
+  "pytest>=7",
+  "django>=3.2",
+  "flask>=2.2",
+  "starlette>=0.27",
+  "httpx>=0.24",
+  "requests>=2.28",
+  "celery>=5.2",
+]
+
+[project.urls]
+Homepage = "https://www.codeskop.com"
+Documentation = "https://www.codeskop.com/docs/server/python"
+
+[tool.hatch.version]
+path = "src/codeskop/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codeskop"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 130
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF"]
+# Optional[...] stays readable on 3.9; noqa: BLE001 marks intentional broad catches.
+ignore = ["UP045", "UP007", "RUF100", "B904"]
