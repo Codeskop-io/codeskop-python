@@ -1,0 +1,37 @@
+name: Release
+# Push a tag vX.Y.Z (matching src/codeskop/_version.py) to publish to PyPI.
+# Uses PyPI Trusted Publishing: no token; configure the publisher on pypi.org once.
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag matches version
+        run: |
+          v=$(python -c "import re;print(re.search(r'\"(.+)\"', open('src/codeskop/_version.py').read()).group(1))")
+          [ "v$v" = "${GITHUB_REF_NAME}" ] || { echo "tag ${GITHUB_REF_NAME} != v$v"; exit 1; }
+      - run: pip install -e ".[test]" build twine
+      - run: pytest -p no:cacheprovider
+      - run: python -m build && twine check --strict dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
