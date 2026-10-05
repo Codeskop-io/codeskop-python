@@ -156,6 +156,9 @@ class Client:
     def keep(self, event: dict) -> bool:
         if event["type"] in _NEVER_SAMPLED or event.get("severity") == "high":
             return True
+        # API Trust is an audit trail: every attributed request is kept (docs/10 §10.9).
+        if event["type"] == "http_request" and "consumer" in event.get("payload", {}):
+            return True
         rate = self.sample_rate(event["type"])
         return rate >= 1.0 or random.random() < rate
 
