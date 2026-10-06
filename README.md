@@ -7,7 +7,7 @@ Errors, incoming requests and outgoing API calls from your Python backend, in Co
 - **Outgoing calls:** `requests` and `httpx` calls to other APIs, with status, latency and failures.
 - **Zero dependencies.** Python 3.9+. Never blocks a request: events are sent in the background, compressed and retried.
 
-Status: beta (`0.1.0`).
+Status: beta (`0.1.1`).
 
 ## Install
 
