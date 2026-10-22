@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 (2026-10-22)
+
+- README rewrite and package metadata (homepage https://www.codeskop.com). No code changes.
+- PyPI classifier is now `Development Status :: 5 - Production/Stable`.
+
 ## 0.1.1 — 2026-10-06
 
 - Contact email is now support@codeskop.com.
