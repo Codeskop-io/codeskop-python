@@ -6,7 +6,8 @@ on:
 jobs:
   test:
     name: Python ${{ matrix.python }}
-    runs-on: ubuntu-latest
+    # Python 3.9 isn't available for ubuntu-latest (26.04); keep it on 24.04.
+    runs-on: ${{ matrix.python == '3.9' && 'ubuntu-24.04' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
